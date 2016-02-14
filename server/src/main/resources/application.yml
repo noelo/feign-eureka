@@ -6,11 +6,15 @@ server:
   port: 7111
 
 eureka:
-  password: password
   client:
     serviceUrl:
-      defaultZone: http://user:${eureka.password}@localhost:8761/eureka/
+        defaultZone: ${EUREKA_URL:http://netflix-eureka.cloudapps.nocosetest.com/eureka/v2/}
+    healthcheck:
+      enabled: false
   instance:
-    leaseRenewalIntervalInSeconds: 10
-    metadataMap:
-      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+    metadata:
+#    nonSecurePort: 9090
+    preferIpAddress: ${USEHOSTNAME:false}
+    hostname: localhost
+    instanceId: ${spring.application.name}:${spring.application.instance_id}
+#  password: ${EUREKA_USER_PASSWORD:password}
