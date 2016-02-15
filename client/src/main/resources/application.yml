@@ -10,7 +10,7 @@ eureka:
     serviceUrl:
         defaultZone: ${EUREKA_URL:http://netflix-eureka.cloudapps.nocosetest.com/eureka/v2/}
     healthcheck:
-      enabled: false
+      enabled: true
   instance:
     instance:
         leaseRenewalIntervalInSeconds: 10

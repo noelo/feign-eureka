@@ -8,7 +8,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
@@ -18,6 +18,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @EnableDiscoveryClient
 @RestController
 @EnableFeignClients
+@EnableHystrixDashboard
 public class HelloClientApplication {
 	@Autowired
 	HelloClient client;
