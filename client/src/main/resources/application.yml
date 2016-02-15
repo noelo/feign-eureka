@@ -14,8 +14,8 @@ eureka:
   instance:
       preferIpAddress: true
       leaseRenewalIntervalInSeconds: 10
-      metadataMap:
-          instanceId: ${spring.application.name}:${spring.application.instance_id}
+#      metadataMap:
+#          instanceId: ${spring.application.name}:${spring.application.instance_id}
 
 
 
