@@ -9,9 +9,9 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+
 
 /**
  * @author Spencer Gibb

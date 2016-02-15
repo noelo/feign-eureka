@@ -24,7 +24,7 @@ public class HelloServerApplication {
 	@RequestMapping("/")
 	public String hello() {
 		ServiceInstance localInstance = client.getLocalServiceInstance();
-		return "Hello World: "+ localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();
+		return "Hello World Server: "+ localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();
 	}
 
 	public static void main(String[] args) {
