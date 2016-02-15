@@ -21,6 +21,11 @@ oc create -f feign-client.json
 oc create -f feign-server.json
 
 
+Install a maven repo to speed up the build
+------------------------------------------
+https://blog.openshift.com/improving-build-time-java-builds-openshift/
+
+
 Edit the build config to add the requisite env vars
 
 "strategy": {
@@ -38,7 +43,7 @@ Edit the build config to add the requisite env vars
                     },
                     {
                         "name": "BUILDER_ARGS",
-                        "value": "package -Popenshift -DskipTests -Dcom.redhat.xpaas.repo.redhatga -Dsource.skip -Dmaven.javadoc.skip -Dmaven.repo.local=/opt/app-root/src/source/.m2"
+                        "value": "package -Popenshift -DskipTests -Dcom.redhat.xpaas.repo.redhatga -Dsource.skip -Dmaven.javadoc.skipgit"
                     }
                 ],
                 "incremental": true

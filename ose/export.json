@@ -1,0 +1,1849 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client",
+                "creationTimestamp": null,
+                "labels": {
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Rolling",
+                    "rollingParams": {
+                        "updatePeriodSeconds": 1,
+                        "intervalSeconds": 1,
+                        "timeoutSeconds": 600,
+                        "maxUnavailable": "25%",
+                        "maxSurge": "25%"
+                    },
+                    "resources": {}
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "feign-eureka-client"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "feign-eureka-client:latest"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "selector": {
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8934bfc56f40c77b761773945ddcd0f3a376078ff0b60559b6386ac18e72e12a",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {}
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server",
+                "creationTimestamp": null,
+                "labels": {
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Rolling",
+                    "rollingParams": {
+                        "updatePeriodSeconds": 1,
+                        "intervalSeconds": 1,
+                        "timeoutSeconds": 600,
+                        "maxUnavailable": "25%",
+                        "maxSurge": "25%"
+                    },
+                    "resources": {}
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "feign-eureka-server"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "feign-eureka-server:latest"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 3,
+                "selector": {
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:dfa1269417721bb63321ef867a2af3691f1ffafed9fdd94dd56cc4dce437e467",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {}
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client",
+                "creationTimestamp": null,
+                "labels": {
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "GitHub",
+                        "github": {
+                            "secret": "uf2lk6yxksFQoP4AxhUL"
+                        }
+                    },
+                    {
+                        "type": "Generic",
+                        "generic": {
+                            "secret": "euGZP1LjiL0jc0vefHIg"
+                        }
+                    },
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/noelo/feign-eureka"
+                    },
+                    "contextDir": "client"
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "namespace": "openshift",
+                            "name": "springboot-sti:latest"
+                        },
+                        "env": [
+                            {
+                                "name": "OSE_NEXUS_URL",
+                                "value": "http://nexus-ci.cloudapps.nocosetest.com/content/groups/public/"
+                            },
+                            {
+                                "name": "BUILDER_ARGS",
+                                "value": "package -Popenshift -Dmaven.repo.local=/opt/app-root/src/source/.m2 -DskipTests -Dcom.redhat.xpaas.repo.redhatga -Dsource.skip -Dmaven.javadoc.skip"
+                            }
+                        ]
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "feign-eureka-client:latest"
+                    }
+                },
+                "resources": {}
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server",
+                "creationTimestamp": null,
+                "labels": {
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "GitHub",
+                        "github": {
+                            "secret": "uf2lk6yxksFQoP4AxhUL"
+                        }
+                    },
+                    {
+                        "type": "Generic",
+                        "generic": {
+                            "secret": "euGZP1LjiL0jc0vefHIg"
+                        }
+                    },
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/noelo/feign-eureka"
+                    },
+                    "contextDir": "server"
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "namespace": "openshift",
+                            "name": "springboot-sti:latest"
+                        },
+                        "env": [
+                            {
+                                "name": "OSE_NEXUS_URL",
+                                "value": "http://nexus-ci.cloudapps.nocosetest.com/content/groups/public/"
+                            },
+                            {
+                                "name": "BUILDER_ARGS",
+                                "value": "package -Popenshift -Dmaven.repo.local=/opt/app-root/src/source/.m2 -DskipTests -Dcom.redhat.xpaas.repo.redhatga -Dsource.skip -Dmaven.javadoc.skip"
+                            }
+                        ]
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "feign-eureka-server:latest"
+                    }
+                },
+                "resources": {}
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-1",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-1-deploy",
+                    "openshift.io/deployment-config.latest-version": "1",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1471160\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:7adec19041e7868e82e9d3756799619f3aa833d983e01f6715fb93166fcb3656\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:7adec19041e7868e82e9d3756799619f3aa833d983e01f6715fb93166fcb3656\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":1,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-1",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-1",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "1",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-1",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:7adec19041e7868e82e9d3756799619f3aa833d983e01f6715fb93166fcb3656",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-10",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-10-deploy",
+                    "openshift.io/deployment-config.latest-version": "10",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1484395\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:417714128a77f7b40d479ea2cd03b6fd000f63e2582774914ebb63932813053c\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:417714128a77f7b40d479ea2cd03b6fd000f63e2582774914ebb63932813053c\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":10,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-10",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-10",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "10",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-10",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:417714128a77f7b40d479ea2cd03b6fd000f63e2582774914ebb63932813053c",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-11",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-11-deploy",
+                    "openshift.io/deployment-config.latest-version": "11",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1484820\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:417714128a77f7b40d479ea2cd03b6fd000f63e2582774914ebb63932813053c\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8d55321d4946db919a33e96bf06adcf3645ac3036e1bad811cd4aa131771e65a\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":11,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-11",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-11",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "11",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-11",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8d55321d4946db919a33e96bf06adcf3645ac3036e1bad811cd4aa131771e65a",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-12",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-12-deploy",
+                    "openshift.io/deployment-config.latest-version": "12",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "1",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1485789\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8934bfc56f40c77b761773945ddcd0f3a376078ff0b60559b6386ac18e72e12a\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8934bfc56f40c77b761773945ddcd0f3a376078ff0b60559b6386ac18e72e12a\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":12,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "deployment": "feign-eureka-client-12",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-12",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "12",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-12",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8934bfc56f40c77b761773945ddcd0f3a376078ff0b60559b6386ac18e72e12a",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-2",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-2-deploy",
+                    "openshift.io/deployment-config.latest-version": "2",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1471871\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:66b4f7bab70b31dcef11324e0f54c9ed22f93e92c5639bbbddb33161973822e0\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:66b4f7bab70b31dcef11324e0f54c9ed22f93e92c5639bbbddb33161973822e0\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":2,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-2",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-2",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "2",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-2",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:66b4f7bab70b31dcef11324e0f54c9ed22f93e92c5639bbbddb33161973822e0",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-3",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-3-deploy",
+                    "openshift.io/deployment-config.latest-version": "3",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1472450\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:bf5ec7eb5c3a89aef3f66b9b176fa62aa19891e092f823ad2fcc59bb18aaf700\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:bf5ec7eb5c3a89aef3f66b9b176fa62aa19891e092f823ad2fcc59bb18aaf700\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":3,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-3",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-3",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "3",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-3",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:bf5ec7eb5c3a89aef3f66b9b176fa62aa19891e092f823ad2fcc59bb18aaf700",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-4",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-4-deploy",
+                    "openshift.io/deployment-config.latest-version": "4",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1473331\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:cb2776918dd8e78049291dba1ef64b0c4b547b321c5a4b26c158b15c74444085\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:cb2776918dd8e78049291dba1ef64b0c4b547b321c5a4b26c158b15c74444085\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":4,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-4",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-4",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "4",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-4",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:cb2776918dd8e78049291dba1ef64b0c4b547b321c5a4b26c158b15c74444085",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-5",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-5-deploy",
+                    "openshift.io/deployment-config.latest-version": "5",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1475696\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:e84682a95fcc547277a045c4e3ff08f7587209a26d7f0d656320ba5f2e175f42\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:e84682a95fcc547277a045c4e3ff08f7587209a26d7f0d656320ba5f2e175f42\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":5,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-5",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-5",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "5",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-5",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:e84682a95fcc547277a045c4e3ff08f7587209a26d7f0d656320ba5f2e175f42",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-6",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-6-deploy",
+                    "openshift.io/deployment-config.latest-version": "6",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1476270\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:ad1e6f8d9ccb269ebc3d14f6212958ce1c24127f12ac2d6304cfd20eea8ca1b9\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:ad1e6f8d9ccb269ebc3d14f6212958ce1c24127f12ac2d6304cfd20eea8ca1b9\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":6,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-6",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-6",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "6",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-6",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:ad1e6f8d9ccb269ebc3d14f6212958ce1c24127f12ac2d6304cfd20eea8ca1b9",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-7",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-7-deploy",
+                    "openshift.io/deployment-config.latest-version": "7",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1476450\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:c3c03c7a4dd4d1beb3258890c88f64d8345389e48447188974d730586c2e7cf3\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:c3c03c7a4dd4d1beb3258890c88f64d8345389e48447188974d730586c2e7cf3\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":7,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-7",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-7",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "7",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-7",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:c3c03c7a4dd4d1beb3258890c88f64d8345389e48447188974d730586c2e7cf3",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-8",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-8-deploy",
+                    "openshift.io/deployment-config.latest-version": "8",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1476975\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:e26bc642e17936d8707af386480c759da6447cba1a3c3749aa18019496399942\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:e26bc642e17936d8707af386480c759da6447cba1a3c3749aa18019496399942\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":8,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-8",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-8",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "8",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-8",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:e26bc642e17936d8707af386480c759da6447cba1a3c3749aa18019496399942",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "MY_POD_NAME",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.name"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "MY_POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "MY_POD_IP",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "status.podIP"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-client-9",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-client-9-deploy",
+                    "openshift.io/deployment-config.latest-version": "9",
+                    "openshift.io/deployment-config.name": "feign-eureka-client",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-client\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-client\",\"uid\":\"8b90ab26-d387-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1479618\",\"creationTimestamp\":\"2016-02-15T01:58:02Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-client\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8d55321d4946db919a33e96bf06adcf3645ac3036e1bad811cd4aa131771e65a\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-client\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-client\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8d55321d4946db919a33e96bf06adcf3645ac3036e1bad811cd4aa131771e65a\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":9,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-client:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-client-9",
+                    "deploymentconfig": "feign-eureka-client",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-client-9",
+                            "deploymentconfig": "feign-eureka-client",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "9",
+                            "openshift.io/deployment-config.name": "feign-eureka-client",
+                            "openshift.io/deployment.name": "feign-eureka-client-9",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-client",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-client@sha256:8d55321d4946db919a33e96bf06adcf3645ac3036e1bad811cd4aa131771e65a",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-1",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-1-deploy",
+                    "openshift.io/deployment-config.latest-version": "1",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1471651\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:d784a9861dba03bb7a0593dd1b3114ae7b28509b977e105a52ea57335a03d6fb\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:d784a9861dba03bb7a0593dd1b3114ae7b28509b977e105a52ea57335a03d6fb\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":1,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-1",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-1",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "1",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-1",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:d784a9861dba03bb7a0593dd1b3114ae7b28509b977e105a52ea57335a03d6fb",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-2",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-2-deploy",
+                    "openshift.io/deployment-config.latest-version": "2",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1471811\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:0f3efe23d783c1b41799d0ef448fc54a7c1338653e562dc2a91f490dd30af307\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:0f3efe23d783c1b41799d0ef448fc54a7c1338653e562dc2a91f490dd30af307\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":2,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-2",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-2",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "2",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-2",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:0f3efe23d783c1b41799d0ef448fc54a7c1338653e562dc2a91f490dd30af307",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-3",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-3-deploy",
+                    "openshift.io/deployment-config.latest-version": "3",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1472398\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:8b0c3f938fcc6ad18b6e5ddd28a2ee80be35ed94229674ca3a31ba8d71f7e816\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:8b0c3f938fcc6ad18b6e5ddd28a2ee80be35ed94229674ca3a31ba8d71f7e816\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":3,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-3",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-3",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "3",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-3",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:8b0c3f938fcc6ad18b6e5ddd28a2ee80be35ed94229674ca3a31ba8d71f7e816",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-4",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-4-deploy",
+                    "openshift.io/deployment-config.latest-version": "4",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1473324\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:ce0f5f75dc2e68f2f1160a0cdaa761c4f35ca225ac2aa8e1c60f30306d79c1e1\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:ce0f5f75dc2e68f2f1160a0cdaa761c4f35ca225ac2aa8e1c60f30306d79c1e1\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":4,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-4",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-4",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "4",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-4",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:ce0f5f75dc2e68f2f1160a0cdaa761c4f35ca225ac2aa8e1c60f30306d79c1e1",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-5",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-5-deploy",
+                    "openshift.io/deployment-config.latest-version": "5",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1476701\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:6e993ccfba651f5be3f1e81bd29e8241ffb32caa8ef8a90b5ef811a54d570a01\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:6e993ccfba651f5be3f1e81bd29e8241ffb32caa8ef8a90b5ef811a54d570a01\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":5,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-5",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-5",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "5",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-5",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:6e993ccfba651f5be3f1e81bd29e8241ffb32caa8ef8a90b5ef811a54d570a01",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "MY_POD_NAME",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.name"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "MY_POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "MY_POD_IP",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "status.podIP"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-6",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-6-deploy",
+                    "openshift.io/deployment-config.latest-version": "6",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1479684\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:00c7d6423f0cbda696e4603c3a0895bfa908cfb67a1b897eeaee927b9de656c2\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:00c7d6423f0cbda696e4603c3a0895bfa908cfb67a1b897eeaee927b9de656c2\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":6,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-6",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-6",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "6",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-6",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:00c7d6423f0cbda696e4603c3a0895bfa908cfb67a1b897eeaee927b9de656c2",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-7",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-7-deploy",
+                    "openshift.io/deployment-config.latest-version": "7",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1484355\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:857cdcb7c91e3656679cbbbe7147d9f9969abf2a7c2b9541a0752f9b876adc89\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:857cdcb7c91e3656679cbbbe7147d9f9969abf2a7c2b9541a0752f9b876adc89\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":7,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-7",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-7",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "7",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-7",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:857cdcb7c91e3656679cbbbe7147d9f9969abf2a7c2b9541a0752f9b876adc89",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-8",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "kubectl.kubernetes.io/original-replicas": "1",
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-8-deploy",
+                    "openshift.io/deployment-config.latest-version": "8",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "0",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1484878\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:857cdcb7c91e3656679cbbbe7147d9f9969abf2a7c2b9541a0752f9b876adc89\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:00c7d6423f0cbda696e4603c3a0895bfa908cfb67a1b897eeaee927b9de656c2\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":8,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "deployment": "feign-eureka-server-8",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-8",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "8",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-8",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:00c7d6423f0cbda696e4603c3a0895bfa908cfb67a1b897eeaee927b9de656c2",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "feign-eureka-server-9",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "annotations": {
+                    "openshift.io/deployer-pod.name": "feign-eureka-server-9-deploy",
+                    "openshift.io/deployment-config.latest-version": "9",
+                    "openshift.io/deployment-config.name": "feign-eureka-server",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "3",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"feign-eureka-server\",\"namespace\":\"feign-eureka-client\",\"selfLink\":\"/oapi/v1/namespaces/feign-eureka-client/deploymentconfigs/feign-eureka-server\",\"uid\":\"e9cb2b10-d389-11e5-af54-525400fc3d1b\",\"resourceVersion\":\"1485653\",\"creationTimestamp\":\"2016-02-15T02:14:59Z\",\"labels\":{\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{}},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"feign-eureka-server\"],\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"},\"lastTriggeredImage\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:dfa1269417721bb63321ef867a2af3691f1ffafed9fdd94dd56cc4dce437e467\"}}],\"replicas\":1,\"selector\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"deploymentconfig\":\"feign-eureka-server\",\"rhcdemo\":\"true\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"}},\"spec\":{\"containers\":[{\"name\":\"feign-eureka-server\",\"image\":\"172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:dfa1269417721bb63321ef867a2af3691f1ffafed9fdd94dd56cc4dce437e467\",\"ports\":[{\"containerPort\":8080,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":9,\"details\":{\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"feign-eureka-server:latest\"}}}]}}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 3,
+                "selector": {
+                    "deployment": "feign-eureka-server-9",
+                    "deploymentconfig": "feign-eureka-server",
+                    "rhcdemo": "true"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deployment": "feign-eureka-server-9",
+                            "deploymentconfig": "feign-eureka-server",
+                            "rhcdemo": "true"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "9",
+                            "openshift.io/deployment-config.name": "feign-eureka-server",
+                            "openshift.io/deployment.name": "feign-eureka-server-9",
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "feign-eureka-server",
+                                "image": "172.30.251.167:5000/feign-eureka-client/feign-eureka-server@sha256:dfa1269417721bb63321ef867a2af3691f1ffafed9fdd94dd56cc4dce437e467",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        }
+    ]
+}
