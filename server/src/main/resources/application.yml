@@ -15,6 +15,7 @@ eureka:
     metadata:
     preferIpAddress: true
     instanceId: ${MY_POD_NAMESPACE}:${MY_POD_NAME}:${spring.application.instance_id}
+    leaseRenewalIntervalInSeconds: 10
     #instanceId: ${spring.application.name}:${spring.application.instance_id}
     #    hostname: localhost
     #    nonSecurePort: 9090
