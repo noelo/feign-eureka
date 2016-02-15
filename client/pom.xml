@@ -11,11 +11,18 @@
 	<name>feign-eureka-hello-client</name>
 	<description>Demo project for Spring Cloud</description>
 
+	<!--<parent>-->
+		<!--<groupId>org.test</groupId>-->
+		<!--<artifactId>feign-eureka</artifactId>-->
+		<!--<version>0.0.1-SNAPSHOT</version>-->
+		<!--<relativePath>..</relativePath> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+	<!--</parent>-->
+
 	<parent>
-		<groupId>org.test</groupId>
-		<artifactId>feign-eureka</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>..</relativePath> <!-- lookup parent from repository -->
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-parent</artifactId>
+		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
