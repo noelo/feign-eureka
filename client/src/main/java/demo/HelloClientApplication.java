@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 
 /**
  * @author Spencer Gibb
@@ -18,23 +20,26 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @EnableDiscoveryClient
 @RestController
 @EnableFeignClients
-@EnableHystrixDashboard
+@EnableCircuitBreaker
 public class HelloClientApplication {
-	@Autowired
-	HelloClient client;
+    @Autowired
+    HelloClient client;
 
-	@RequestMapping("/")
-	public String hello() {
-		return client.hello();
-	}
+    @RequestMapping("/")
+    public String hello() {
+        return client.hello();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(HelloClientApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HelloClientApplication.class, args);
+    }
 
-	@FeignClient("HelloServer")
-	interface HelloClient {
-		@RequestMapping(value = "/", method = GET)
-		String hello();
-	}
+    @FeignClient("HelloServer")
+    @Component
+    interface HelloClient {
+        @RequestMapping(value = "/", method = GET)
+        String hello();
+    }
+
 }
+

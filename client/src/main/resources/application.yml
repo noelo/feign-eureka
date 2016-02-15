@@ -12,6 +12,7 @@ eureka:
     healthcheck:
       enabled: true
   instance:
+      preferIpAddress: true
     instance:
         leaseRenewalIntervalInSeconds: 10
         metadataMap:
