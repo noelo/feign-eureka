@@ -19,10 +19,10 @@ eureka:
 #          instanceId: ${spring.application.name}:${spring.application.instance_id}
 
 
-zuul:
-  routes:
-    demo: /trythis/**
-    serviceId: HelloServer
+#zuul:
+#  routes:
+#    demo: /trythis/**
+#    serviceId: HelloServer
 
 
 

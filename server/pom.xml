@@ -11,32 +11,14 @@
     <name>feign-eureka-hello-server</name>
     <description>Demo project for Spring Cloud</description>
 
-    <!--<parent>-->
-    <!--<groupId>org.test</groupId>-->
-    <!--<artifactId>feign-eureka</artifactId>-->
-    <!--<version>0.0.1-SNAPSHOT</version>-->
-    <!--<relativePath>..</relativePath> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-    <!--</parent>-->
 
-    <!--<parent>-->
-        <!--<groupId>org.springframework.cloud</groupId>-->
-        <!--<artifactId>spring-cloud-starter-parent</artifactId>-->
-        <!--<version>1.0.2.RELEASE</version>-->
+    <parent>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-parent</artifactId>
+        <version>1.0.2.RELEASE</version>
         <!--<relativePath/>-->
-        <!--&lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-    <!--</parent>-->
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-netflix</artifactId>
-                <version>1.0.7.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <!-- lookup parent from repository -->
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
