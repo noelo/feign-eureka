@@ -13,8 +13,9 @@ eureka:
       enabled: false
   instance:
     metadata:
-#    nonSecurePort: 9090
     preferIpAddress: true
-#    hostname: localhost
-    instanceId: ${spring.application.name}:${spring.application.instance_id}
+    instanceId: ${MY_POD_NAMESPACE}:${MY_POD_NAME}:${spring.application.instance_id}
+    #instanceId: ${spring.application.name}:${spring.application.instance_id}
+    #    hostname: localhost
+    #    nonSecurePort: 9090
 #  password: ${EUREKA_USER_PASSWORD:password}

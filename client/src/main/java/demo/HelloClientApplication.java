@@ -27,7 +27,7 @@ public class HelloClientApplication {
 
     @RequestMapping("/")
     public String hello() {
-        return client.hello();
+        return "--->"+client.hello();
     }
 
     public static void main(String[] args) {
