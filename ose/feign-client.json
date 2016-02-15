@@ -1,0 +1,178 @@
+{
+  "kind": "List",
+  "apiVersion": "v1",
+  "metadata": {},
+  "items": [{
+    "kind": "ImageStream",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "feign-eureka-client",
+      "creationTimestamp": null,
+      "labels": {
+        "rhcdemo": "true"
+      },
+      "annotations": {
+        "openshift.io/generated-by": "OpenShiftNewApp"
+      }
+    },
+    "spec": {},
+    "status": {
+      "dockerImageRepository": ""
+    }
+  }, {
+    "kind": "BuildConfig",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "feign-eureka-client",
+      "creationTimestamp": null,
+      "labels": {
+        "rhcdemo": "true"
+      },
+      "annotations": {
+        "openshift.io/generated-by": "OpenShiftNewApp"
+      }
+    },
+    "spec": {
+      "triggers": [{
+        "type": "GitHub",
+        "github": {
+          "secret": "uf2lk6yxksFQoP4AxhUL"
+        }
+      }, {
+        "type": "Generic",
+        "generic": {
+          "secret": "euGZP1LjiL0jc0vefHIg"
+        }
+      }, {
+        "type": "ConfigChange"
+      }, {
+        "type": "ImageChange",
+        "imageChange": {}
+      }],
+      "source": {
+        "type": "Git",
+        "contextDir": "client",
+        "git": {
+          "uri": "https://github.com/noelo/feign-eureka"
+        }
+      },
+      "strategy": {
+        "type": "Source",
+        "sourceStrategy": {
+          "from": {
+            "kind": "ImageStreamTag",
+            "namespace": "openshift",
+            "name": "springboot-sti:latest"
+          },
+          "env": [{
+            "name": "OSE_NEXUS_URL",
+            "value": "http://nexus-ci.cloudapps.nocosetest.com/content/groups/public/"
+          }, {
+            "name": "BUILDER_ARGS",
+            "value": "package -Popenshift -Dmaven.repo.local=/opt/app-root/src/source/.m2 -DskipTests -Dcom.redhat.xpaas.repo.redhatga -Dsource.skip -Dmaven.javadoc.skip"
+          }]
+        }
+      },
+      "output": {
+        "to": {
+          "kind": "ImageStreamTag",
+          "name": "feign-eureka-client:latest"
+        }
+      },
+      "resources": {}
+    },
+    "status": {
+      "lastVersion": 0
+    }
+  }, {
+    "kind": "DeploymentConfig",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "feign-eureka-client",
+      "creationTimestamp": null,
+      "labels": {
+        "rhcdemo": "true"
+      },
+      "annotations": {
+        "openshift.io/generated-by": "OpenShiftNewApp"
+      }
+    },
+    "spec": {
+      "strategy": {
+        "resources": {}
+      },
+      "triggers": [{
+        "type": "ConfigChange"
+      }, {
+        "type": "ImageChange",
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "feign-eureka-client"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "feign-eureka-client:latest"
+          }
+        }
+      }],
+      "replicas": 1,
+      "selector": {
+        "deploymentconfig": "feign-eureka-client",
+        "rhcdemo": "true"
+      },
+      "template": {
+        "metadata": {
+          "creationTimestamp": null,
+          "labels": {
+            "deploymentconfig": "feign-eureka-client",
+            "rhcdemo": "true"
+          },
+          "annotations": {
+            "openshift.io/generated-by": "OpenShiftNewApp"
+          }
+        },
+        "spec": {
+          "containers": [{
+            "name": "feign-eureka-client",
+            "image": "library/feign-eureka-client:latest",
+            "ports": [{
+              "containerPort": 8080,
+              "protocol": "TCP"
+            }],
+            "resources": {}
+          }]
+        }
+      }
+    },
+    "status": {}
+  }, {
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "feign-eureka-client",
+      "creationTimestamp": null,
+      "labels": {
+        "rhcdemo": "true"
+      },
+      "annotations": {
+        "openshift.io/generated-by": "OpenShiftNewApp"
+      }
+    },
+    "spec": {
+      "ports": [{
+        "name": "8080-tcp",
+        "protocol": "TCP",
+        "port": 8080,
+        "targetPort": 8080
+      }],
+      "selector": {
+        "deploymentconfig": "feign-eureka-client",
+        "rhcdemo": "true"
+      }
+    },
+    "status": {
+      "loadBalancer": {}
+    }
+  }]
+}

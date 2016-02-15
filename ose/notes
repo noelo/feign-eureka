@@ -1,0 +1,66 @@
+Install the builder
+--------------------
+oc create -f https://raw.githubusercontent.com/noelo/osev3-examples/master/all-in-v3.json
+oc get bc
+oc start-build springboot-sti
+oc get pods
+oc logs springboot-sti-1-build
+oc logs springboot-sti-1-build -f
+
+
+Install a Eureka Instance
+-------------------------
+oc new-app https://github.com/Netflix-Skunkworks/zerotodocker.git --context-dir=eureka/1.3.1 --strategy=docker --loglevel=5
+oc expose service/zerotodocker --hostname=netflix-eureka.cloudapps.nocosetest.com
+
+
+Install the server and client apps
+----------------------------------
+oc new-app openshift/springboot-sti~https://github.com/noelo/feign-eureka --context-dir=client  -l rhcdemo=true -o json > feign-client.json
+oc create -f feign-client.json
+oc create -f feign-server.json
+
+
+Edit the build config to add the requisite env vars
+
+"strategy": {
+            "type": "Source",
+            "sourceStrategy": {
+                "from": {
+                    "kind": "ImageStreamTag",
+                    "namespace": "openshift",
+                    "name": "springboot-sti:latest"
+                },
+                "env": [
+				    {
+                        "name": "OSE_NEXUS_URL",
+                        "value": "http://nexus-ci.cloudapps.nocosetest.com/content/groups/public/"
+                    },
+                    {
+                        "name": "BUILDER_ARGS",
+                        "value": "package -Popenshift -DskipTests -Dcom.redhat.xpaas.repo.redhatga -Dsource.skip -Dmaven.javadoc.skip -Dmaven.repo.local=/opt/app-root/src/source/.m2"
+                    }
+                ],
+                "incremental": true
+            }
+        },
+
+
+
+		Then restart the build with oc start-build ose-eureka-client-demo
+
+
+Once built and running edit the rc to add the downward api env vars, these are used in the yaml files
+
+ports:
+        - containerPort: 5000
+          protocol: TCP
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
